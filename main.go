@@ -27,9 +27,7 @@ func purgeMessages(s *discordgo.Session, ch_id string, count int) {
 	var ids []string
 
 	messages, mErr := s.ChannelMessages(ch_id, count, "", "")
-	if mErr != nil {
-		fmt.Println("ERROR")
-	} else {
+	if mErr == nil {
 		for _, m := range messages {
 			ids = append(ids, m.ID)
 		}
@@ -37,7 +35,7 @@ func purgeMessages(s *discordgo.Session, ch_id string, count int) {
 
 	err := s.ChannelMessagesBulkDelete(ch_id, ids)
 	if err != nil {
-		fmt.Println(err)
+		//fmt.Println(err)
 	}
 }
 
@@ -71,9 +69,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if mErr == nil {
 			for _, r := range member.Roles {
 				role, rErr := state.Role(g_id, r)
-				if rErr != nil {
-					fmt.Println(rErr)
-				} else {
+				if rErr == nil {
 					roles = append(roles, role.Name)
 				}
 			}
@@ -83,6 +79,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		content = strings.TrimSpace(strings.TrimPrefix(content,
 			"<@"+bot.ClientID+">"))
 
+		// non-Admin commands here
 		if strings.EqualFold(content, "hello") {
 			s.ChannelMessageSend(ch_id, "Why don't you have a seat...")
 		} else {
@@ -94,7 +91,8 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 					isAdmin = true
 				}
 			}
-
+			
+			// These commands only execute if user is "Admin" role
 			if isAdmin {
 
 				// check if command was called
