@@ -7,4 +7,4 @@ Requires an 'Admin' role for some commands. This can be changed if you want to e
 
 # Features
 
-`purge[ number]` removes the last 'number' of messages up to 100. Default is 5.
+`@botname purge[ number]` removes the last 'number' of messages up to 100. Default is 5.
