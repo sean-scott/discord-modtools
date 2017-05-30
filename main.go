@@ -26,7 +26,7 @@ func check(e error) {
 func purgeMessages(s *discordgo.Session, ch_id string, count int) {
 	var ids []string
 
-	messages, mErr := s.ChannelMessages(ch_id, count, "", "")
+	messages, mErr := s.ChannelMessages(ch_id, count, "", "", "")
 	if mErr == nil {
 		for _, m := range messages {
 			ids = append(ids, m.ID)
@@ -91,7 +91,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 					isAdmin = true
 				}
 			}
-			
+
 			// These commands only execute if user is "Admin" role
 			if isAdmin {
 
